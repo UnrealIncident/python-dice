@@ -8,6 +8,9 @@ import operator
 from dice.utilities import classname, addevensubodd
 
 
+sys_random = random.SystemRandom()
+
+
 class Element(object):
     verbose = False
 
@@ -47,7 +50,7 @@ class Roll(list, Element):
 
     @staticmethod
     def roll(amount, sides):
-        return [random.randint(1, sides) for i in range(amount)]
+        return [sys_random.randint(1, sides) for i in range(amount)]
 
     def __init__(self, amount, sides):
         super(Roll, self).__init__(self.roll(amount, sides))
@@ -134,6 +137,10 @@ class IntegerOperator(Operator):
 
 class Div(IntegerOperator):
     function = operator.floordiv
+
+
+class FloatDiv(IntegerOperator):
+    function = operator.truediv
 
 
 class Mul(IntegerOperator):

@@ -15,6 +15,13 @@ def single(iterable):
     return iterable[0] if len(iterable) == 1 else iterable
 
 
+def whole_float_to_int(num):
+    """Returns an int if the provided float is actually a whole number"""
+    if not isinstance(num, float):
+        return num
+    return int(num) if num.is_integer() else num
+
+
 def patch_pyparsing(packrat=True, arity=True):
     """Applies monkey-patches to pyparsing"""
     if packrat:

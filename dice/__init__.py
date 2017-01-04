@@ -13,12 +13,18 @@ __author__ = "Sam Clements <sam@borntyping.co.uk>"
 __version__ = '1.1.0'
 
 
-def roll(string, single=True, verbose=False):
+def roll(string, single=True, verbose=False, float_div=False):
     """Parses and evaluates a dice expression"""
-    ast = dice.grammar.expression.parseString(string, parseAll=True)
+    if float_div:
+        ast = dice.grammar.float_expression.parseString(string, parseAll=True)
+    else:
+        ast = dice.grammar.expression.parseString(string, parseAll=True)
     if verbose:
         dice.elements.Element.verbose = True
-    result = [element.evaluate_cached(verbose=verbose) for element in ast]
+    if float_div:
+        result = [dice.utilities.whole_float_to_int(element.evaluate_cached(verbose=verbose)) for element in ast]
+    else:
+        result = [element.evaluate_cached(verbose=verbose) for element in ast]
     if single:
         return dice.utilities.single(result)
     return result
